@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="마감">
+<meta name="theme-color" content="#EEF1F5">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<title>마감 달력</title>
+<style>
+  :root{--bg:#EEF1F5;--paper:#fff;--ink:#1C2230;--ink-2:#5B6474;--line:#D9DEE6;--hot:#E3402F;--warm:#E58A1F;--ok:#2E7D5B}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Apple SD Gothic Neo","Pretendard",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{padding:max(12px,env(safe-area-inset-top)) 10px 110px;max-width:560px;margin:0 auto}
+
+  .top{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 10px}
+  .top h1{font-size:20px;margin:0;letter-spacing:-.02em}
+  .top .nav{display:flex;gap:6px}
+  .top button{font:inherit;font-size:13px;font-weight:600;padding:7px 11px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+
+  .cal{background:var(--paper);border-radius:16px;overflow:hidden}
+  .wk{display:grid;grid-template-columns:repeat(7,1fr);font-size:11px;color:var(--ink-2);text-align:center;padding:8px 0 4px;border-bottom:1px solid var(--line)}
+  .wk span:first-child{color:var(--hot)}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr)}
+  .day{min-height:78px;padding:4px 2px 5px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:2px}
+  .day:nth-child(7n){border-right:0}
+  .day.out{opacity:.35}
+  .day .n{font-size:12px;font-weight:600;text-align:center;line-height:20px;height:20px;width:20px;margin:0 auto 2px;border-radius:50%}
+  .day.sun .n{color:var(--hot)}
+  .day.today .n{background:var(--ink);color:#fff}
+  .day.has{background:#FAFBFC}
+  .chip{border-radius:5px;padding:2px 3px;font-size:9.5px;line-height:1.15;color:#fff;background:var(--c);overflow:hidden}
+  .chip b{display:block;font-size:11px;font-weight:800;letter-spacing:-.02em}
+  .chip span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.92}
+  .chip.done{opacity:.35;text-decoration:line-through}
+  .chip.over b{color:#FFD7D2}
+  .chip.hot b{color:#FFE4B0}
+  .more{font-size:9.5px;color:var(--ink-2);text-align:center}
+
+  .sec{font-size:12px;color:var(--ink-2);margin:18px 6px 8px;font-weight:600}
+  .row{background:var(--paper);border-radius:12px;padding:10px 12px;margin-bottom:6px;display:grid;grid-template-columns:56px 1fr auto;gap:0 10px;align-items:center;border-left:4px solid var(--c,var(--line))}
+  .row.done{opacity:.45}
+  .dd{font-size:20px;font-weight:800;letter-spacing:-.03em;line-height:1}
+  .dd.hot{color:var(--hot)}.dd.warm{color:var(--warm)}.dd.over{color:var(--hot);font-size:14px}
+  .dd em{display:block;font-style:normal;font-size:10.5px;color:var(--ink-2);font-weight:500;margin-top:3px}
+  .name{font-size:14px;font-weight:600;letter-spacing:-.01em}.name.dn{text-decoration:line-through}
+  .sub{font-size:12px;color:var(--ink-2);margin-top:2px}.sub .left{color:var(--ink);font-weight:600}
+  .ctr{display:flex;gap:6px}
+  .ctr button{width:32px;height:32px;border-radius:9px;border:1px solid var(--line);background:#fff;font-size:17px;color:var(--ink);cursor:pointer}
+  .ctr .chk{font-size:13px}.ctr .chk.on{background:var(--ok);color:#fff;border-color:var(--ok)}
+  .rm{grid-column:1/-1;display:none;justify-content:flex-end;gap:8px;padding-top:8px;margin-top:8px;border-top:1px solid var(--line)}
+  .row.open .rm{display:flex}
+  .rm button{font-size:13px;padding:7px 11px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer}
+  .rm .del{color:var(--hot);border-color:#F3C6C0}
+  .none{color:var(--ink-2);font-size:13px;padding:16px;text-align:center}
+
+  .fab{position:fixed;right:18px;bottom:max(22px,env(safe-area-inset-bottom));width:56px;height:56px;border-radius:50%;background:var(--ink);color:#fff;font-size:30px;line-height:56px;text-align:center;border:0;box-shadow:0 8px 20px rgba(28,34,48,.28);cursor:pointer}
+  .sheet{position:fixed;inset:0;background:rgba(28,34,48,.45);display:none;align-items:flex-end;z-index:9}
+  .sheet.on{display:flex}
+  .panel{background:var(--paper);width:100%;max-width:560px;margin:0 auto;border-radius:22px 22px 0 0;padding:18px 16px max(24px,env(safe-area-inset-bottom));max-height:85vh;overflow:auto}
+  .panel h2{font-size:17px;margin:0 0 12px;letter-spacing:-.01em;display:flex;justify-content:space-between;align-items:center}
+  .panel h2 button{font:inherit;font-size:13px;font-weight:600;padding:7px 11px;border-radius:9px;border:0;background:var(--ink);color:#fff;cursor:pointer}
+  label{display:block;font-size:12px;color:var(--ink-2);margin:12px 0 5px;font-weight:600}
+  input,select{width:100%;font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cats{display:flex;gap:7px;flex-wrap:wrap}
+  .cats button{border:2px solid transparent;border-radius:999px;padding:6px 11px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;opacity:.5}
+  .cats button.on{opacity:1;border-color:var(--ink)}
+  .acts{display:flex;gap:10px;margin-top:18px}
+  .acts button{flex:1;font:inherit;font-size:15px;font-weight:700;padding:13px;border-radius:12px;border:0;cursor:pointer}
+  .acts .go{background:var(--ink);color:#fff}.acts .no{background:var(--bg);color:var(--ink)}
+  .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;padding:9px 14px;border-radius:999px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
+  .toast.on{opacity:1}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1 id="mtitle"></h1>
+  <div class="nav"><button id="prev">‹</button><button id="tod">오늘</button><button id="next">›</button></div>
+</div>
+<div class="cal">
+  <div class="wk"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+  <div class="grid" id="grid"></div>
+</div>
+<div id="list"></div>
+<button class="fab" id="fab" aria-label="마감 추가">+</button>
+
+<div class="sheet" id="daySheet"><div class="panel">
+  <h2><span id="dayTitle"></span><button id="addHere">+ 이 날 추가</button></h2>
+  <div id="dayList"></div>
+</div></div>
+
+<div class="sheet" id="sheet"><div class="panel">
+  <h2 id="ptitle">마감 추가</h2>
+  <label for="f-title">뭘 넘겨야 하나요</label>
+  <input id="f-title" placeholder="예) 요즘픽 12회 자막" autocomplete="off">
+  <label>어느 프로그램</label><div class="cats" id="cats"></div>
+  <div class="two">
+    <div><label for="f-date">마감일</label><input id="f-date" type="date"></div>
+    <div><label for="f-qty">분량 (없으면 1)</label><input id="f-qty" type="number" min="1" value="1" inputmode="numeric"></div>
+  </div>
+  <div class="acts"><button class="no" id="cancel">닫기</button><button class="go" id="save">저장</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const CATS={요즘픽:'#9B6BD6',셀링라이프:'#F08A24',라이프업:'#D9B21A',엔터팟:'#6F8BB3',퍼즐팩토리:'#3C8DBC',사소생:'#3FA47D',기타:'#8C95A5'};
+const KEY='deadlines-v1';
+let items=[],cat='요즘픽',editId=null,view=new Date(),selDay=null;
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const todayStr=()=>ymd(new Date());
+const diff=a=>Math.round((new Date(a)-new Date(todayStr()))/864e5);
+const ddText=n=>n===0?'D-DAY':n>0?`D-${n}`:`D+${-n}`;
+const W='일월화수목금토';
+const fmt=s=>{const d=new Date(s);return `${d.getMonth()+1}/${d.getDate()} (${W[d.getDay()]})`};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const col=i=>CATS[i.cat]||CATS.기타;
+const isDone=i=>i.done>=i.qty;
+
+const seed=[
+  {title:'ST) 셀링라이프',cat:'셀링라이프',due:'2026-09-16',qty:1,done:0},
+  {title:'VCR) 라이프업',cat:'라이프업',due:'2026-09-17',qty:1,done:0},
+  {title:'ST) 라이프업',cat:'라이프업',due:'2026-09-22',qty:1,done:0},
+  {title:'가편) 셀링 4회',cat:'셀링라이프',due:'2026-09-30',qty:1,done:0},
+  {title:'자막) 셀링 4회',cat:'셀링라이프',due:'2026-10-03',qty:4,done:0},
+].map(x=>({id:uid(),...x}));
+
+function load(){
+  try{const v=localStorage.getItem(KEY);items=v?JSON.parse(v):seed;if(!v)save(false)}
+  catch(e){items=seed}
+  render();
+}
+function save(show=true){
+  try{localStorage.setItem(KEY,JSON.stringify(items));if(show)toast('저장됨')}
+  catch(e){toast('저장 실패 — 다시 시도해 주세요')}
+}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1400)}
+
+function render(){
+  const y=view.getFullYear(),m=view.getMonth();
+  $('#mtitle').textContent=`${y}년 ${m+1}월`;
+  const first=new Date(y,m,1),start=new Date(y,m,1-first.getDay());
+  const today=todayStr();
+  let g='';
+  for(let k=0;k<42;k++){
+    const d=new Date(start);d.setDate(start.getDate()+k);
+    const s=ymd(d),out=d.getMonth()!==m;
+    const its=items.filter(i=>i.due===s).sort((a,b)=>isDone(a)-isDone(b));
+    const n=diff(s);
+    const chips=its.slice(0,3).map(i=>{
+      const cls=isDone(i)?'done':n<0?'over':n<=3?'hot':'';
+      const left=i.qty>1?` ${i.qty-i.done}/${i.qty}`:'';
+      return `<div class="chip ${cls}" style="--c:${col(i)}"><b>${isDone(i)?'완료':ddText(n)}${left}</b><span>${esc(i.title)}</span></div>`;
+    }).join('')+(its.length>3?`<div class="more">+${its.length-3}</div>`:'');
+    g+=`<div class="day${out?' out':''}${s===today?' today':''}${d.getDay()===0?' sun':''}${its.length?' has':''}" data-d="${s}"><div class="n">${d.getDate()}</div>${chips}</div>`;
+    if(k>=34&&d.getMonth()!==m&&d.getDay()===6)break;
+  }
+  $('#grid').innerHTML=g;
+
+  const open=items.filter(i=>!isDone(i)).sort((a,b)=>a.due.localeCompare(b.due));
+  $('#list').innerHTML=open.length?`<div class="sec">급한 순 · ${open.length}개</div>`+open.slice(0,8).map(row).join(''):`<div class="none">걸린 마감 없음. + 로 추가하세요.</div>`;
+  if(selDay)renderDay();
+}
+function row(i){
+  const n=diff(i.due),done=isDone(i),left=i.qty-i.done;
+  const cls=done?'':n<0?'over':n<=3?'hot':n<=7?'warm':'';
+  return `<div class="row${done?' done':''}" style="--c:${col(i)}" data-id="${i.id}">
+    <div class="dd ${cls}">${done?'완료':ddText(n)}<em>${fmt(i.due)}</em></div>
+    <div><div class="name${done?' dn':''}">${esc(i.title)}</div><div class="sub">${i.cat}${i.qty>1?` · <span class="left">${left}개 남음</span> / ${i.qty}`:''}</div></div>
+    <div class="ctr">${i.qty>1?`<button data-a="minus">−</button><button data-a="plus">+</button>`:`<button class="chk${done?' on':''}" data-a="toggle">✓</button>`}</div>
+    <div class="rm"><button data-a="edit">수정</button><button class="del" data-a="del">삭제</button></div></div>`;
+}
+function renderDay(){
+  const its=items.filter(i=>i.due===selDay).sort((a,b)=>isDone(a)-isDone(b));
+  const n=diff(selDay);
+  $('#dayTitle').textContent=`${fmt(selDay)} · ${ddText(n)}`;
+  $('#dayList').innerHTML=its.length?its.map(row).join(''):`<div class="none">이 날 마감 없음</div>`;
+}
+function act(e){
+  const r=e.target.closest('.row');if(!r)return;
+  const it=items.find(x=>x.id===r.dataset.id),a=e.target.dataset.a;
+  if(!a){r.classList.toggle('open');return}
+  if(a==='plus')it.done=Math.min(it.qty,it.done+1);
+  if(a==='minus')it.done=Math.max(0,it.done-1);
+  if(a==='toggle')it.done=isDone(it)?0:it.qty;
+  if(a==='del'){if(!confirm(`"${it.title}" 삭제할까요?`))return;items=items.filter(x=>x!==it)}
+  if(a==='edit'){$('#daySheet').classList.remove('on');openSheet(it);return}
+  render();save(a!=='plus'&&a!=='minus');
+}
+$('#list').addEventListener('click',act);
+$('#dayList').addEventListener('click',act);
+$('#grid').addEventListener('click',e=>{const d=e.target.closest('.day');if(!d)return;selDay=d.dataset.d;renderDay();$('#daySheet').classList.add('on')});
+$('#daySheet').addEventListener('click',e=>{if(e.target.id==='daySheet'){$('#daySheet').classList.remove('on');selDay=null}});
+$('#addHere').onclick=()=>{const d=selDay;$('#daySheet').classList.remove('on');openSheet(null,d)};
+$('#prev').onclick=()=>{view=new Date(view.getFullYear(),view.getMonth()-1,1);render()};
+$('#next').onclick=()=>{view=new Date(view.getFullYear(),view.getMonth()+1,1);render()};
+$('#tod').onclick=()=>{view=new Date();render()};
+
+function drawCats(){$('#cats').innerHTML=Object.entries(CATS).map(([k,v])=>`<button type="button" style="background:${v}" class="${k===cat?'on':''}" data-c="${k}">${k}</button>`).join('')}
+$('#cats').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;cat=b.dataset.c;drawCats()});
+function openSheet(it,date){
+  editId=it?it.id:null;
+  $('#ptitle').textContent=it?'마감 수정':'마감 추가';
+  $('#f-title').value=it?it.title:'';$('#f-date').value=it?it.due:(date||todayStr());$('#f-qty').value=it?it.qty:1;
+  cat=it?it.cat:'요즘픽';drawCats();
+  $('#sheet').classList.add('on');setTimeout(()=>$('#f-title').focus(),50);
+}
+$('#fab').onclick=()=>openSheet(null);
+$('#cancel').onclick=()=>$('#sheet').classList.remove('on');
+$('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')$('#sheet').classList.remove('on')});
+$('#save').onclick=()=>{
+  const title=$('#f-title').value.trim(),due=$('#f-date').value,qty=Math.max(1,parseInt($('#f-qty').value)||1);
+  if(!title){toast('제목을 적어주세요');return}
+  if(!due){toast('마감일을 골라주세요');return}
+  if(editId){const it=items.find(x=>x.id===editId);Object.assign(it,{title,due,qty,cat});it.done=Math.min(it.done,qty)}
+  else items.push({id:uid(),title,cat,due,qty,done:0});
+  $('#sheet').classList.remove('on');view=new Date(due+'T00:00');render();save();
+};
+load();
+</script>
+</body>
+</html>
