@@ -28,6 +28,7 @@
   .day{min-height:78px;padding:4px 2px 5px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:2px}
   .day:nth-child(7n){border-right:0}
   .day.out{opacity:.35}
+    .hol{font-size:9px;color:var(--hot);text-align:center;line-height:1.1;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .day .n{font-size:12px;font-weight:600;text-align:center;line-height:20px;height:20px;width:20px;margin:0 auto 2px;border-radius:50%}
   .day.sun .n{color:var(--hot)}
   .day.today .n{background:var(--ink);color:#fff}
@@ -109,6 +110,20 @@
 
 <script>
 const CATS={요즘픽:'#9B6BD6',셀링라이프:'#F08A24',라이프업:'#D9B21A',엔터팟:'#6F8BB3',퍼즐팩토리:'#3C8DBC',사소생:'#3FA47D',약속:'#D4467A',개인:'#4FA3A0',휴일:'#D93025',기타:'#8C95A5'};
+const HOL={
+'2026-01-01':'신정','2026-02-16':'설날 연휴','2026-02-17':'설날','2026-02-18':'설날 연휴',
+'2026-03-01':'삼일절','2026-03-02':'대체공휴일','2026-05-01':'노동절','2026-05-05':'어린이날',
+'2026-05-24':'부처님오신날','2026-05-25':'대체공휴일','2026-06-03':'지방선거','2026-06-06':'현충일',
+'2026-07-17':'제헌절','2026-08-15':'광복절','2026-08-17':'대체공휴일',
+'2026-09-24':'추석 연휴','2026-09-25':'추석','2026-09-26':'추석 연휴',
+'2026-10-03':'개천절','2026-10-05':'대체공휴일','2026-10-09':'한글날','2026-12-25':'성탄절',
+'2027-01-01':'신정','2027-02-06':'설날 연휴','2027-02-07':'설날','2027-02-08':'설날 연휴','2027-02-09':'대체공휴일',
+'2027-03-01':'삼일절','2027-05-01':'노동절','2027-05-05':'어린이날','2027-05-13':'부처님오신날',
+'2027-06-06':'현충일','2027-07-17':'제헌절','2027-07-19':'대체공휴일',
+'2027-08-15':'광복절','2027-08-16':'대체공휴일',
+'2027-09-14':'추석 연휴','2027-09-15':'추석','2027-09-16':'추석 연휴',
+'2027-10-03':'개천절','2027-10-04':'대체공휴일','2027-10-09':'한글날','2027-10-11':'대체공휴일',
+'2027-12-25':'성탄절','2027-12-27':'대체공휴일'};
 const KEY='deadlines-v1';
 let items=[],cat='요즘픽',editId=null,view=new Date(),selDay=null;
 const $=s=>document.querySelector(s);
@@ -159,7 +174,8 @@ function render(){
       const left=i.qty>1?` ${i.qty-i.done}/${i.qty}`:'';
       return `<div class="chip ${cls}" style="--c:${col(i)}"><b>${isDone(i)?'완료':ddText(n)}${left}</b><span>${esc(i.title)}</span></div>`;
     }).join('')+(its.length>3?`<div class="more">+${its.length-3}</div>`:'');
-    g+=`<div class="day${out?' out':''}${s===today?' today':''}${d.getDay()===0?' sun':''}${its.length?' has':''}" data-d="${s}"><div class="n">${d.getDate()}</div>${chips}</div>`;
+    const hn=HOL[s];
+    g+=`<div class="day${out?' out':''}${s===today?' today':''}${d.getDay()===0||hn?' sun':''}${its.length?' has':''}" data-d="${s}"><div class="n">${d.getDate()}</div>${hn?`<div class="hol">${hn}</div>`:''}${chips}</div>`;
     if(k>=34&&d.getMonth()!==m&&d.getDay()===6)break;
   }
   $('#grid').innerHTML=g;
@@ -180,7 +196,7 @@ function row(i){
 function renderDay(){
   const its=items.filter(i=>i.due===selDay).sort((a,b)=>isDone(a)-isDone(b));
   const n=diff(selDay);
-  $('#dayTitle').textContent=`${fmt(selDay)} · ${ddText(n)}`;
+  $('#dayTitle').textContent=`${fmt(selDay)}${HOL[selDay]?' '+HOL[selDay]:''} · ${ddText(n)}`;
   $('#dayList').innerHTML=its.length?its.map(row).join(''):`<div class="none">이 날 마감 없음</div>`;
 }
 function act(e){
