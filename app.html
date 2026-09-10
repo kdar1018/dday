@@ -24,9 +24,18 @@
   .cal{background:var(--paper);border-radius:16px;overflow:hidden;touch-action:pan-y;will-change:transform}
   .wk{display:grid;grid-template-columns:repeat(7,1fr);font-size:11px;color:var(--ink-2);text-align:center;padding:8px 0 4px;border-bottom:1px solid var(--line)}
   .wk span:first-child{color:var(--hot)}
-  .grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
-  .day{min-width:0;overflow:hidden;min-height:78px;padding:4px 2px 5px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:2px}
+  .grid{}
+  .week{border-bottom:1px solid var(--line)}
+  .week:last-child{border-bottom:0}
+  .wgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+  .bars{position:relative}
+  .bar{position:absolute;height:15px;border-radius:4px;background:var(--c);color:#fff;
+    font-size:9.5px;line-height:15px;padding:0 5px;white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis;cursor:pointer}
+  .bar.done{opacity:.4;text-decoration:line-through}
+  .day{min-width:0;overflow:hidden;min-height:78px;padding:4px 2px 5px;border-right:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:2px}
   .day:nth-child(7n){border-right:0}
+  .rng{font-size:12px;color:var(--ink-2);margin-top:2px}
   .day.out{opacity:.35}
     .hol{font-size:9px;color:var(--hot);text-align:center;line-height:1.1;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .day .n{font-size:12px;font-weight:600;text-align:center;line-height:20px;height:20px;width:20px;margin:0 auto 2px;border-radius:50%}
@@ -101,9 +110,11 @@
   <input id="f-title" placeholder="예) 요즘픽 12회 자막" autocomplete="off">
   <label>어느 프로그램</label><div class="cats" id="cats"></div>
   <div class="two">
-    <div><label for="f-date">마감일</label><input id="f-date" type="date"></div>
+    <div><label for="f-date">마감일 / 시작일</label><input id="f-date" type="date"></div>
     <div><label for="f-qty">분량 (없으면 1)</label><input id="f-qty" type="number" min="1" value="1" inputmode="numeric"></div>
   </div>
+  <label for="f-end">종료일 (며칠 이어지는 일정만)</label>
+  <input id="f-end" type="date">
   <div class="acts"><button class="no" id="cancel">닫기</button><button class="go" id="save">저장</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
@@ -184,20 +195,39 @@ function render(){
   $('#mtitle').textContent=`${y}년 ${m+1}월`;
   const first=new Date(y,m,1),start=new Date(y,m,1-first.getDay());
   const today=todayStr();
+  const ranges=items.filter(i=>i.end&&i.end>i.due);
   let g='';
-  for(let k=0;k<42;k++){
-    const d=new Date(start);d.setDate(start.getDate()+k);
-    const s=ymd(d),out=d.getMonth()!==m;
-    const its=items.filter(i=>i.due===s).sort((a,b)=>isDone(a)-isDone(b));
-    const n=diff(s);
-    const chips=its.slice(0,3).map(i=>{
-      const cls=isDone(i)?'done':n<0?'over':n<=3?'hot':'';
-      const left=i.qty>1?` ${i.qty-i.done}/${i.qty}`:'';
-      return `<div class="chip ${cls}" style="--c:${col(i)}"><b>${isDone(i)?'완료':ddText(n)}${left}</b><span>${esc(i.title)}</span></div>`;
-    }).join('')+(its.length>3?`<div class="more">+${its.length-3}</div>`:'');
-    const hn=HOL[s];
-    g+=`<div class="day${out?' out':''}${s===today?' today':''}${d.getDay()===0||hn?' sun':''}${its.length?' has':''}" data-d="${s}"><div class="n">${d.getDate()}</div>${hn?`<div class="hol">${hn}</div>`:''}${chips}</div>`;
-    if(k>=34&&d.getMonth()!==m&&d.getDay()===6)break;
+  for(let wk=0;wk<6;wk++){
+    let cells='';
+    const wStart=new Date(start);wStart.setDate(start.getDate()+wk*7);
+    const wEnd=new Date(wStart);wEnd.setDate(wStart.getDate()+6);
+    if(wk>=4&&wStart.getMonth()!==m&&wEnd.getMonth()!==m)break;
+    for(let k=0;k<7;k++){
+      const d=new Date(wStart);d.setDate(wStart.getDate()+k);
+      const s=ymd(d),out=d.getMonth()!==m;
+      const its=items.filter(i=>i.due===s&&!(i.end&&i.end>i.due)).sort((a,b)=>isDone(a)-isDone(b));
+      const n=diff(s);
+      const chips=its.slice(0,3).map(i=>{
+        const cls=isDone(i)?'done':n<0?'over':n<=3?'hot':'';
+        const left=i.qty>1?` ${i.qty-i.done}/${i.qty}`:'';
+        return `<div class="chip ${cls}" style="--c:${col(i)}"><b>${isDone(i)?'완료':ddText(n)}${left}</b><span>${esc(i.title)}</span></div>`;
+      }).join('')+(its.length>3?`<div class="more">+${its.length-3}</div>`:'');
+      const hn=HOL[s];
+      cells+=`<div class="day${out?' out':''}${s===today?' today':''}${d.getDay()===0||hn?' sun':''}${its.length?' has':''}" data-d="${s}"><div class="n">${d.getDate()}</div>${hn?`<div class="hol">${hn}</div>`:''}${chips}</div>`;
+    }
+    // 기간 막대
+    const ws=ymd(wStart),we=ymd(wEnd);
+    const inWeek=ranges.filter(i=>i.due<=we&&i.end>=ws);
+    let bars='',row=0;
+    inWeek.forEach(i=>{
+      const a=i.due<ws?0:Math.round((new Date(i.due)-wStart)/864e5);
+      const b=i.end>we?6:Math.round((new Date(i.end)-wStart)/864e5);
+      const pre=i.due<ws?'← ':'',suf=i.end>we?' →':'';
+      const n=diff(i.due),lbl=(today>=i.due&&today<=i.end)?'진행 중':ddText(n);
+      bars+=`<div class="bar${isDone(i)?' done':''}" style="--c:${col(i)};left:${a/7*100}%;width:${(b-a+1)/7*100}%;top:${row*17}px" data-id="${i.id}">${pre}${lbl} ${esc(i.title)}${suf}</div>`;
+      row++;
+    });
+    g+=`<div class="week"><div class="wgrid">${cells}</div><div class="bars" style="height:${row?row*17+4:0}px">${bars}</div></div>`;
   }
   $('#grid').innerHTML=g;
 
@@ -208,14 +238,17 @@ function render(){
 function row(i){
   const n=diff(i.due),done=isDone(i),left=i.qty-i.done;
   const cls=done?'':n<0?'over':n<=3?'hot':n<=7?'warm':'';
+  const rng=i.end&&i.end>i.due;
+  const going=rng&&todayStr()>=i.due&&todayStr()<=i.end;
+  const ddl=done?'완료':going?'진행':ddText(n);
   return `<div class="row${done?' done':''}" style="--c:${col(i)}" data-id="${i.id}">
-    <div class="dd ${cls}">${done?'완료':ddText(n)}<em>${fmt(i.due)}</em></div>
+    <div class="dd ${going?'':cls}" style="${going?'font-size:15px':''}">${ddl}<em>${fmt(i.due)}${rng?' ~ '+fmt(i.end):''}</em></div>
     <div><div class="name${done?' dn':''}">${esc(i.title)}</div><div class="sub">${i.cat}${i.qty>1?` · <span class="left">${left}개 남음</span> / ${i.qty}`:''}</div></div>
     <div class="ctr">${i.qty>1?`<button data-a="minus">−</button><button data-a="plus">+</button>`:`<button class="chk${done?' on':''}" data-a="toggle">✓</button>`}</div>
     <div class="rm"><button data-a="edit">수정</button><button class="del" data-a="del">삭제</button></div></div>`;
 }
 function renderDay(){
-  const its=items.filter(i=>i.due===selDay).sort((a,b)=>isDone(a)-isDone(b));
+  const its=items.filter(i=>i.due===selDay||(i.end&&i.due<=selDay&&i.end>=selDay)).sort((a,b)=>isDone(a)-isDone(b));
   const n=diff(selDay);
   $('#dayTitle').textContent=`${fmt(selDay)}${HOL[selDay]?' '+HOL[selDay]:''} · ${ddText(n)}`;
   $('#dayList').innerHTML=its.length?its.map(row).join(''):`<div class="none">이 날 마감 없음</div>`;
@@ -233,7 +266,10 @@ function act(e){
 }
 $('#list').addEventListener('click',act);
 $('#dayList').addEventListener('click',act);
-$('#grid').addEventListener('click',e=>{const d=e.target.closest('.day');if(!d)return;selDay=d.dataset.d;renderDay();$('#daySheet').classList.add('on')});
+$('#grid').addEventListener('click',e=>{
+  const bar=e.target.closest('.bar');
+  if(bar){const it=items.find(x=>x.id===bar.dataset.id);if(it)openSheet(it);return}
+  const d=e.target.closest('.day');if(!d)return;selDay=d.dataset.d;renderDay();$('#daySheet').classList.add('on')});
 $('#daySheet').addEventListener('click',e=>{if(e.target.id==='daySheet'){$('#daySheet').classList.remove('on');selDay=null}});
 $('#addHere').onclick=()=>{const d=selDay;$('#daySheet').classList.remove('on');openSheet(null,d)};
 function move(step){view=new Date(view.getFullYear(),view.getMonth()+step,1);render()}
@@ -265,6 +301,7 @@ function openSheet(it,date){
   editId=it?it.id:null;
   $('#ptitle').textContent=it?'마감 수정':'마감 추가';
   $('#f-title').value=it?it.title:'';$('#f-date').value=it?it.due:(date||todayStr());$('#f-qty').value=it?it.qty:1;
+  $('#f-end').value=it&&it.end?it.end:'';
   cat=it?it.cat:'요즘픽';drawCats();
   $('#sheet').classList.add('on');setTimeout(()=>$('#f-title').focus(),50);
 }
@@ -273,10 +310,13 @@ $('#cancel').onclick=()=>$('#sheet').classList.remove('on');
 $('#sheet').addEventListener('click',e=>{if(e.target.id==='sheet')$('#sheet').classList.remove('on')});
 $('#save').onclick=()=>{
   const title=$('#f-title').value.trim(),due=$('#f-date').value,qty=Math.max(1,parseInt($('#f-qty').value)||1);
+  let end=$('#f-end').value||'';
   if(!title){toast('제목을 적어주세요');return}
   if(!due){toast('마감일을 골라주세요');return}
-  if(editId){const it=items.find(x=>x.id===editId);Object.assign(it,{title,due,qty,cat});it.done=Math.min(it.done,qty)}
-  else items.push({id:uid(),title,cat,due,qty,done:0});
+  if(end&&end<due){toast('종료일이 시작일보다 빨라요');return}
+  if(end===due)end='';
+  if(editId){const it=items.find(x=>x.id===editId);Object.assign(it,{title,due,qty,cat,end});it.done=Math.min(it.done,qty)}
+  else items.push({id:uid(),title,cat,due,qty,end,done:0});
   $('#sheet').classList.remove('on');view=new Date(due+'T00:00');render();save();
 };
 load();
