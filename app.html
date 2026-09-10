@@ -24,8 +24,8 @@
   .cal{background:var(--paper);border-radius:16px;overflow:hidden;touch-action:pan-y;will-change:transform}
   .wk{display:grid;grid-template-columns:repeat(7,1fr);font-size:11px;color:var(--ink-2);text-align:center;padding:8px 0 4px;border-bottom:1px solid var(--line)}
   .wk span:first-child{color:var(--hot)}
-  .grid{display:grid;grid-template-columns:repeat(7,1fr)}
-  .day{min-height:78px;padding:4px 2px 5px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:2px}
+  .grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+  .day{min-width:0;overflow:hidden;min-height:78px;padding:4px 2px 5px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:2px}
   .day:nth-child(7n){border-right:0}
   .day.out{opacity:.35}
     .hol{font-size:9px;color:var(--hot);text-align:center;line-height:1.1;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -33,9 +33,9 @@
   .day.sun .n{color:var(--hot)}
   .day.today .n{background:var(--ink);color:#fff}
   .day.has{background:#FAFBFC}
-  .chip{border-radius:5px;padding:2px 3px;font-size:9.5px;line-height:1.15;color:#fff;background:var(--c);overflow:hidden}
+  .chip{border-radius:5px;padding:2px 3px;font-size:9.5px;line-height:1.15;color:#fff;background:var(--c);overflow:hidden;min-width:0}
   .chip b{display:block;font-size:11px;font-weight:800;letter-spacing:-.02em}
-  .chip span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.92}
+  .chip span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;word-break:break-all;opacity:.92}
   .chip.done{opacity:.35;text-decoration:line-through}
   .chip.over b{color:#FFD7D2}
   .chip.hot b{color:#FFE4B0}
@@ -147,9 +147,30 @@ const seed=[
   {title:'자막) 셀링 4회',cat:'셀링라이프',due:'2026-10-03',qty:4,done:0},
 ].map(x=>({id:uid(),...x}));
 
+
+// 기존 달력에서 옮겨온 일정 (한 번만 실행)
+const IMPORT_KEY='import-myroutine-2';
+const IMPORT=[
+ {title:'11:00) 손케어',cat:'개인',due:'2026-09-12',qty:1},
+ {title:'민지랑 약속',cat:'약속',due:'2026-10-09',qty:1},
+];
+function runImport(){
+  if(localStorage.getItem(IMPORT_KEY))return false;
+  let changed=false;
+  IMPORT.forEach(x=>{
+    // 같은 날짜에 비슷한 일정이 이미 있으면 제목만 갱신
+    const key=x.title.replace(/^[\d:)\s]+/,'').slice(0,3);
+    const dup=items.find(i=>i.due===x.due&&(i.title===x.title||i.title.includes(key)));
+    if(dup){if(dup.title!==x.title){dup.title=x.title;changed=true}}
+    else{items.push({id:uid(),done:0,...x});changed=true}
+  });
+  localStorage.setItem(IMPORT_KEY,'1');
+  return changed;
+}
 function load(){
   try{const v=localStorage.getItem(KEY);items=v?JSON.parse(v):seed;if(!v)save(false)}
   catch(e){items=seed}
+  try{if(runImport())save(false)}catch(e){}
   render();
 }
 function save(show=true){
