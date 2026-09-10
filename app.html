@@ -75,9 +75,7 @@
   .panel h2 button{font:inherit;font-size:13px;font-weight:600;padding:7px 11px;border-radius:9px;border:0;background:var(--ink);color:#fff;cursor:pointer}
   label{display:block;font-size:12px;color:var(--ink-2);margin:12px 0 5px;font-weight:600}
   input,select{width:100%;font:inherit;font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
-  .two{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
-  .two>div{min-width:0}
-  .two input{width:100%}
+  input[type=date]{min-width:0;-webkit-appearance:none;appearance:none}
   .cats{display:flex;gap:7px;flex-wrap:wrap}
   .cats button{border:2px solid transparent;border-radius:999px;padding:6px 11px;font-size:13px;font-weight:600;color:#fff;cursor:pointer;opacity:.5}
   .cats button.on{opacity:1;border-color:var(--ink)}
@@ -111,12 +109,12 @@
   <label for="f-title">뭘 넘겨야 하나요</label>
   <input id="f-title" placeholder="예) 요즘픽 12회 자막" autocomplete="off">
   <label>어느 프로그램</label><div class="cats" id="cats"></div>
-  <div class="two">
-    <div><label for="f-date">마감일 / 시작일</label><input id="f-date" type="date"></div>
-    <div><label for="f-qty">분량</label><input id="f-qty" type="number" min="1" value="1" inputmode="numeric"></div>
-  </div>
+  <label for="f-date">마감일 / 시작일</label>
+  <input id="f-date" type="date">
   <label for="f-end">종료일 (며칠 이어지는 일정만)</label>
   <input id="f-end" type="date">
+  <label for="f-qty">분량</label>
+  <input id="f-qty" type="number" min="1" value="1" inputmode="numeric">
   <div class="acts"><button class="no" id="cancel">닫기</button><button class="go" id="save">저장</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
